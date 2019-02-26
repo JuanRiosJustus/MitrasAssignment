@@ -38,7 +38,11 @@ public class TellerView extends View
 	// GUI stuff
 	private TextField userid;
 	private PasswordField password;
-	private Button submitButton;
+	private Button newBook;
+	private Button newPatron;
+	private Button searchBook;
+	private Button searchPatron;
+	private Button done;
 
 	// For showing error message
 	private MessageView statusLog;
@@ -66,7 +70,7 @@ public class TellerView extends View
 
 		getChildren().add(container);
 
-		populateFields();
+		//populateFields();
 
 		// STEP 0: Be sure you tell your model what keys you are interested in
 		myModel.subscribe("LoginError", this);
@@ -77,10 +81,10 @@ public class TellerView extends View
 	private Node createTitle()
 	{
 		
-		Text titleText = new Text("       Brockport Bank ATM          ");
-		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		Text titleText = new Text("       Library System          ");
+		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 25));
 		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
+		titleText.setFill(Color.BLACK);
 		
 	
 		return titleText;
@@ -97,34 +101,10 @@ public class TellerView extends View
         	grid.setPadding(new Insets(25, 25, 25, 25));
 
 		// data entry fields
-		Label userName = new Label("User ID:");
-        	grid.add(userName, 0, 0);
 
-		userid = new TextField();
-		userid.setOnAction(new EventHandler<ActionEvent>() {
 
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	processAction(e);    
-            	     }
-        	});
-        	grid.add(userid, 1, 0);
-
-		Label pw = new Label("Password:");
-        	grid.add(pw, 0, 1);
-
-		password = new PasswordField();
-		password.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	processAction(e);    
-            	     }
-        	});
-        	grid.add(password, 1, 1);
-
-		submitButton = new Button("Submit");
- 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
+		newBook = new Button("INSERT NEW BOOK");
+ 		newBook.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
        		     public void handle(ActionEvent e) {
@@ -132,10 +112,66 @@ public class TellerView extends View
             	     }
         	});
 
-		HBox btnContainer = new HBox(10);
-		btnContainer.setAlignment(Pos.BOTTOM_RIGHT);
-		btnContainer.getChildren().add(submitButton);
+		HBox btnContainer = new HBox(15);
+		btnContainer.setAlignment(Pos.BASELINE_CENTER);
+		btnContainer.getChildren().add(newBook);
+		grid.add(btnContainer, 1, 1);
+		
+		newPatron = new Button("INSERT NEW PATRON");
+ 		newPatron.setOnAction(new EventHandler<ActionEvent>() {
+
+       		     @Override
+       		     public void handle(ActionEvent e) {
+       		     	processAction(e);    
+            	     }
+        	});
+
+		btnContainer = new HBox(15);
+		btnContainer.setAlignment(Pos.BASELINE_CENTER);
+		btnContainer.getChildren().add(newPatron);
+		grid.add(btnContainer, 1, 2);
+		
+		searchBook = new Button("SEARCH BOOKS");
+		searchBook.setOnAction(new EventHandler<ActionEvent>() {
+
+       		     @Override
+       		     public void handle(ActionEvent e) {
+       		     	processAction(e);    
+            	     }
+        	});
+
+		btnContainer = new HBox(15);
+		btnContainer.setAlignment(Pos.BASELINE_CENTER);
+		btnContainer.getChildren().add(searchBook);
 		grid.add(btnContainer, 1, 3);
+		
+		searchPatron = new Button("SEARCH PATRONS");
+		searchPatron.setOnAction(new EventHandler<ActionEvent>() {
+
+       		     @Override
+       		     public void handle(ActionEvent e) {
+       		     	processAction(e);    
+            	     }
+        	});
+
+		btnContainer = new HBox(15);
+		btnContainer.setAlignment(Pos.BASELINE_CENTER);
+		btnContainer.getChildren().add(searchPatron);
+		grid.add(btnContainer, 1, 4);
+		
+		done = new Button("DONE");
+		done.setOnAction(new EventHandler<ActionEvent>() {
+
+       		     @Override
+       		     public void handle(ActionEvent e) {
+       		     	processAction(e);    
+            	     }
+        	});
+
+		btnContainer = new HBox(15);
+		btnContainer.setAlignment(Pos.BASELINE_CENTER);
+		btnContainer.getChildren().add(done);
+		grid.add(btnContainer, 1, 6);
 
 		return grid;
 	}
@@ -153,11 +189,11 @@ public class TellerView extends View
 	}
 
 	//-------------------------------------------------------------
-	public void populateFields()
-	{
-		userid.setText("");
-		password.setText("");
-	}
+	//public void populateFields()
+	//{
+		//userid.setText("");
+		//password.setText("");
+	//}
 
 	// This method processes events generated from our GUI components.
 	// Make the ActionListeners delegate to this method
