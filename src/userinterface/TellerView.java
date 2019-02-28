@@ -4,6 +4,7 @@ package userinterface;
 
 // system imports
 import java.text.NumberFormat;
+import java.util.Hashtable;
 import java.util.Properties;
 
 import javafx.event.Event;
@@ -26,7 +27,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
+import model.Librarian;
 // project imports
 import impresario.IModel;
 
@@ -43,13 +44,15 @@ public class TellerView extends View
 	private Button searchBook;
 	private Button searchPatron;
 	private Button done;
+	private Hashtable<String, Scene> myViews;
+	private Stage myStage;
 
 	// For showing error message
 	private MessageView statusLog;
 
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
-	public TellerView( IModel teller)
+	public TellerView(IModel teller)
 	{
 
 		super(teller, "TellerView");
@@ -108,7 +111,8 @@ public class TellerView extends View
 
        		     @Override
        		     public void handle(ActionEvent e) {
-       		     	processAction(e);    
+       		     	processAction(e);  
+       		     	BookView bv = new BookView();
             	     }
         	});
 
@@ -119,11 +123,11 @@ public class TellerView extends View
 		
 		newPatron = new Button("INSERT NEW PATRON");
  		newPatron.setOnAction(new EventHandler<ActionEvent>() {
-
        		     @Override
        		     public void handle(ActionEvent e) {
-       		     	processAction(e);    
-            	     }
+       		     	processAction(e); 
+       		     	
+            	    }
         	});
 
 		btnContainer = new HBox(15);
@@ -164,8 +168,10 @@ public class TellerView extends View
 
        		     @Override
        		     public void handle(ActionEvent e) {
+       		    	 myStage.close();
        		     	processAction(e);    
-            	     }
+       		     	
+            	    }
         	});
 
 		btnContainer = new HBox(15);
@@ -177,6 +183,12 @@ public class TellerView extends View
 	}
 
 	
+	public void initializeViews(Hashtable<String, Scene> views, Stage stage) {
+		if (myViews == null && myStage == null) {
+			myViews = views;
+			myStage = stage;
+		}
+	}
 
 	// Create the status log field
 	//-------------------------------------------------------------
@@ -218,7 +230,6 @@ public class TellerView extends View
 		}
 
 	}
-
 	/**
 	 * Process userid and pwd supplied when Submit button is hit.
 	 * Action is to pass this info on to the teller object
@@ -270,4 +281,3 @@ public class TellerView extends View
 	}
 
 }
-
