@@ -18,6 +18,7 @@ import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
 import event.Event;
 import userinterface.MainStageContainer;
+import userinterface.TellerView;
 import userinterface.View;
 import userinterface.ViewFactory;
 import userinterface.WindowPosition;
@@ -52,8 +53,7 @@ public class Teller implements IView, IModel
 		// STEP 3.1: Create the Registry object - if you inherit from
 		// EntityBase, this is done for you. Otherwise, you do it yourself
 		myRegistry = new ModelRegistry("Teller");
-		if(myRegistry == null)
-		{
+		if(myRegistry == null) {
 			new Event(Event.getLeafLevelClassName(this), "Teller",
 				"Could not instantiate Registry", Event.ERROR);
 		}
@@ -153,7 +153,6 @@ public class Teller implements IView, IModel
 			{
 				transactionErrorMessage = "Transaction impossible: Customer not identified";
 			}
-
 		}
 		else
 		if (key.equals("Logout") == true)
@@ -214,7 +213,6 @@ public class Teller implements IView, IModel
 		{
 			Transaction trans = TransactionFactory.createTransaction(
 				transactionType, myAccountHolder);
-
 			trans.subscribe("CancelTransaction", this);
 			trans.stateChangeRequest("DoYourJob", "");
 		}
@@ -239,7 +237,6 @@ public class Teller implements IView, IModel
 			currentScene = new Scene(newView);
 			myViews.put("TransactionChoiceView", currentScene);
 		}
-				
 		// make the view visible by installing it into the frame
 		swapToView(currentScene);
 	}
@@ -248,11 +245,14 @@ public class Teller implements IView, IModel
 	private void createAndShowTellerView()
 	{
 		Scene currentScene = (Scene)myViews.get("TellerView");
-
 		if (currentScene == null)
 		{
 			// create our initial view
 			View newView = ViewFactory.createView("TellerView", this); // USE VIEW FACTORY
+			
+			TellerView tempView = (TellerView)newView;
+			tempView.initializeViews(myViews, myStage);
+			
 			currentScene = new Scene(newView);
 			myViews.put("TellerView", currentScene);
 		}
