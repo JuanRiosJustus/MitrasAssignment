@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.InsertBook;
 
 public class InsertBookView extends View
 {
@@ -25,8 +26,10 @@ public class InsertBookView extends View
 	protected TextField authorField;
 	protected TextField titleField;
 	protected TextField pubYearField;
+	protected TextField statusField;
 
-	protected Button cancelButton;
+	protected Button backButton;
+	protected Button insertButton;
 
 	// For showing error message
 	protected MessageView statusLog;
@@ -101,7 +104,6 @@ public class InsertBookView extends View
 		grid.add(bookIdLabel, 0, 1);
 
 		bookIdField = new TextField();
-		bookIdField.setEditable(false);
 		grid.add(bookIdField, 1, 1);
 
 		Text bookAuthorLabel = new Text("Author: ");
@@ -111,7 +113,6 @@ public class InsertBookView extends View
 		grid.add(bookAuthorLabel, 0, 2);
 
 		authorField = new TextField();
-		authorField.setEditable(false);
 		grid.add(authorField, 1, 2);
 
 		Text titleLabel = new Text("Title: ");
@@ -121,43 +122,60 @@ public class InsertBookView extends View
 		grid.add(titleLabel, 0, 3);
 
 		titleField = new TextField();
-		titleField.setEditable(false);
 		grid.add(titleField, 1, 3);
 
-		Text pubYearLabel = new Text("Publication Yr : ");
+		Text pubYearLabel = new Text("Publication Year : ");
 		pubYearLabel.setFont(myFont);
 		pubYearLabel.setWrappingWidth(150);
 		pubYearLabel.setTextAlignment(TextAlignment.RIGHT);
 		grid.add(pubYearLabel, 0, 4);
 
 		pubYearField = new TextField();
-		pubYearField.setEditable(true);
-		pubYearField.setOnAction(new EventHandler<ActionEvent>() {
-
-  		     @Override
-  		     public void handle(ActionEvent e) {
-  		    	clearErrorMessage();
-  		    	myModel.stateChangeRequest("PubYear", pubYearField.getText());
-       	     }
-        });
 		grid.add(pubYearField, 1, 4);
+		
+		Text statusLabel = new Text("Status :");
+		statusLabel.setFont(myFont);
+		statusLabel.setWrappingWidth(150);
+		statusLabel.setTextAlignment(TextAlignment.RIGHT);
+		grid.add(statusLabel, 0, 5);
+		
+		statusField = new TextField();
+		grid.add(statusField, 1, 5);
+		
+		
 
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
-		cancelButton = new Button("Back");
-		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+		backButton = new Button("Back");
+		backButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				clearErrorMessage();
-				myModel.stateChangeRequest("AccountCancelled", null);   	
+				myModel.stateChangeRequest(InsertBook.INSERT_BOOK_BACK, null);   	
 			}	
 		});
-		doneCont.getChildren().add(cancelButton);
+		doneCont.getChildren().add(backButton);
+		
+		insertButton = new Button("Insert");
+		insertButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		insertButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				clearErrorMessage();
+				InsertBook ib = (InsertBook)myModel;
+				ib.updateState("BookId", bookIdField.getText());
+				ib.updateState("Title", titleField.getText());
+				ib.updateState("Author", authorField.getText());
+				ib.updateState("PubYear", pubYearField.getText());
+				ib.updateState("Status", statusField.getText());
+				myModel.stateChangeRequest(InsertBook.INSERT_BOOK_INSERT, null);   	
+			}	
+		});
+		doneCont.getChildren().add(insertButton);
 	
 		vbox.getChildren().add(grid);
 		vbox.getChildren().add(doneCont);
-
 		return vbox;
 	}
 
