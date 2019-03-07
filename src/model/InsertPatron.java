@@ -107,7 +107,11 @@ public class InsertPatron implements IView, IModel {
 	
 	@Override
 	public void updateState(String key, Object value) {
-		// TODO Auto-generated method stub
+		if (dependencies.containsKey(key)) {
+			String str = (String) value;
+			dependencies.setProperty(key, str);
+			myRegistry.setDependencies(dependencies);
+}
 
 	}
 	
@@ -143,8 +147,7 @@ public class InsertPatron implements IView, IModel {
 	
 	private void insertPatron() {
 		Properties p = new Properties();
-		
-		
+				
 		p.setProperty("name",  dependencies.getProperty("Name"));
 		p.setProperty("address", dependencies.getProperty("Address"));
 		p.setProperty("city", dependencies.getProperty("City"));
