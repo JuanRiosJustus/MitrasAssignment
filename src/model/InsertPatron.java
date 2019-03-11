@@ -58,10 +58,6 @@ public class InsertPatron implements IView, IModel {
 		myRegistry.setDependencies(dependencies);
 	}
 	
-	public void updateState(String key, String val) {
-		
-	}
-	
 	public void showView() { createAndShowInsertPatronView(); }
 	public void cancelView() {createAndShowTellerView();}
 	
@@ -110,9 +106,7 @@ public class InsertPatron implements IView, IModel {
 		if (dependencies.containsKey(key)) {
 			String str = (String) value;
 			dependencies.setProperty(key, str);
-			myRegistry.setDependencies(dependencies);
-}
-
+		}
 	}
 	
 	/** Register objects to receive state updates. */
@@ -147,7 +141,6 @@ public class InsertPatron implements IView, IModel {
 	
 	private void insertPatron() {
 		Properties p = new Properties();
-				
 		p.setProperty("name",  dependencies.getProperty("Name"));
 		p.setProperty("address", dependencies.getProperty("Address"));
 		p.setProperty("city", dependencies.getProperty("City"));
@@ -158,7 +151,7 @@ public class InsertPatron implements IView, IModel {
 		p.setProperty("status", dependencies.getProperty("Status"));
 		Patron patron = new Patron(p);
 		patron.update();
-		System.out.print("VALUES: " + toString());
+		System.out.print("VALUES: " + patron.toString() + " \n\n" + dependencies.getProperty("Status"));
 	}
 	
 	public void swapToView(Scene newScene)
