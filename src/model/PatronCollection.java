@@ -3,6 +3,9 @@ package model;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 import database.JDBCBroker;
@@ -75,6 +78,15 @@ public class PatronCollection extends EntityBase {
     		System.err.println("FAILED");
     	}
     }
+    
+	public ArrayList<MaleablePatron> toArrayList() {
+		ArrayList<MaleablePatron> list = new ArrayList<>();
+    	for (int i = 0; i < patronList.size(); i++) {
+    		Patron p = (Patron)patronList.get(i);
+    		list.add(new MaleablePatron(p));
+    	}
+    	return list;
+	}
     
     /**
      * JUST FOR DEBUGGING PURPOSES
